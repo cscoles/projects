@@ -1,0 +1,383 @@
+<div *ngIf="!selectedStudent">
+  <form #form="ngForm"
+        (ngSubmit)="createStudent(form.value)">
+
+    <label class="student-label">Last Name: </label>
+    <input
+      type="text"
+      required
+      name="Student_Last_Name"
+      placeholder="Smith"
+      [(ngModel)]="Student_Last_Name" />
+    <br>
+
+    <label class="student-label">First Name: </label>
+    <input
+      type="text"
+      required
+      name="Student_First_Name"
+      placeholder="John"
+      [(ngModel)]="Student_First_Name" />
+    <br>
+
+    <label class="student-label">Middle Name: </label>
+    <input
+      type="text"
+      required
+      name="Student_Middle_Name"
+      placeholder=""
+      [(ngModel)]="Student_Middle_Name" />
+    <br>
+
+    <label class="student-label">Gender: </label>
+    <select
+      required
+      name="Student_Gender"
+      [(ngModel)]="Student_Gender">
+      <option [value]="1">Male</option>
+      <option [value]="2">Female</option>
+    </select>
+    <br>
+
+    <label class="student-label">Birth Date: </label>
+    <ng2-datepicker
+      required
+      name="Student_Birth_Date"
+      [options]="options"
+      [(ngModel)]="birthDate">
+    </ng2-datepicker>
+    <br>
+
+    <label class="student-label">Baptism: </label>
+    <input
+      type="checkbox"
+      name="Baptism_Check"
+      [(ngModel)]="Baptism_Check" />
+    <br>
+
+    <label class="student-label">Baptism Date: </label>
+    <ng2-datepicker
+      required
+      name="Baptism_Date"
+      [options]="options"
+      [(ngModel)]="baptismDate">
+    </ng2-datepicker>
+    <br>
+
+    <label class="student-label">Church of Baptism: </label>
+    <input
+      type="text"
+      name="Baptism_Church"
+      [(ngModel)]="Baptism_Church" />
+    <br>
+
+    <label class="student-label">First Communion: </label>
+    <input
+      type="checkbox"
+      name="Eucharist_Received"
+      [value]="Eucharist_Received"
+      [(ngModel)]="Eucharist_Received" />
+    <br>
+
+    <label class="student-label">First Communion Date: </label>
+    <ng2-datepicker
+      required
+      name="Eucharist_Date"
+      [options]="options"
+      [(ngModel)]="eucharistDate">
+    </ng2-datepicker>
+    <br>
+
+    <label class="student-label">Church of First Communion: </label>
+    <input
+      type="text"
+      name="Eucharist_Church"
+      [(ngModel)]="Eucharist_Church" />
+    <br>
+
+    <label class="student-label">Education Assistance: </label>
+    <input
+      type="checkbox"
+      name="Education_Assistance"
+      [(ngModel)]="Education_Assistance" />
+    <br>
+
+    <label class="student-label">Education Assistance Notes: </label>
+    <textarea
+      name="Education_Assistance_Note"
+      placeholder="Any condition or accommodation required"
+      [(ngModel)]="Education_Assistance_Note"></textarea>
+    <br>
+
+    <label class="student-label">Allergy Check: </label>
+    <input
+      type="checkbox"
+      name="Allergy_Check"
+      [value]="Allergy_Check"
+      [(ngModel)]="Allergy_Check" />
+    <br>
+
+    <label class="student-label">Allergy Notes: </label>
+    <textarea
+      name="Allergy_Note"
+      placeholder="Peanuts, latex, seasonal, medication"
+      [(ngModel)]="Allergy_Note"></textarea>
+    <br>
+
+    <div *ngIf="years">
+      <h4>Registration Information</h4>
+
+      <label class="student-label">Registration Year: </label>
+      <select
+        #yearID
+        name="Year_ID"
+        [(ngModel)]="Year_ID"
+        (change)="loadSessions(yearID.value)" >
+        <option *ngFor="let year of years" [ngValue]="year.Year_ID">
+          {{year.Year_Description}}
+        </option>
+      </select>
+      <br>
+
+      <label class="student-label">Preferred Session: </label>
+      <select
+        required
+        name="Session_ID"
+        [(ngModel)]="Session_ID">
+        <option *ngFor="let session of sessions" [ngValue]="session.Session_ID">
+          {{session.Session_Name}}
+        </option>
+      </select>
+      <br>
+
+      <label class="student-label">Grade Level Entering: </label>
+      <select
+        required
+        name="Student_Grade_Entering"
+        [(ngModel)]="Student_Grade_Entering">
+        <option value="Kindergarten">Kindergarten</option>
+        <option value="1st">1st</option>
+        <option value="2nd">2nd</option>
+        <option value="3rd">3rd</option>
+        <option value="4th">4th</option>
+        <option value="5th">5th</option>
+        <option value="6th">6th</option>
+        <option value="7th">7th</option>
+        <option value="8th">8th</option>
+      </select>
+      <br>
+    </div>
+
+    <button type="Submit" [disabled]="!form.valid">Save</button>
+  </form>
+</div>
+
+
+<div *ngIf="selectedStudent">
+  <button type="button" (click)="getNotes(); viewNote.open()">Notes</button>
+  <form #form="ngForm"
+        (ngSubmit)="updateStudent(form.value);">
+    <div>
+      <h4>Student Information</h4>
+      <label class="student-label">Last Name: </label>
+      <input
+        type="text"
+        required
+        name="Student_Last_Name"
+        placeholder="Smith"
+        [(ngModel)]="selectedStudent.Student_Last_Name" />
+      <br>
+
+      <label class="student-label">First Name: </label>
+      <input
+        type="text"
+        required
+        name="Student_First_Name"
+        placeholder="John"
+        [(ngModel)]="selectedStudent.Student_First_Name" />
+      <br>
+
+      <label class="student-label">Middle Name: </label>
+      <input
+        type="text"
+        name="Student_Middle_Name"
+        placeholder=""
+        [(ngModel)]="selectedStudent.Student_Middle_Name" />
+      <br>
+
+      <label class="student-label">Gender: </label>
+      <select
+        required
+        name="Student_Gender"
+        [(ngModel)]="selectedStudent.Student_Gender">
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+      </select>
+      <br>
+
+      <label class="student-label">Birth Date: </label>
+      <ng2-datepicker
+        required
+        name="Student_Birth_Date"
+        [options]="options"
+        [(ngModel)]="birthDate">
+      </ng2-datepicker>
+      <br>
+
+      <label class="student-label">Baptism: </label>
+      <input
+        type="checkbox"
+        name="Baptism_Check"
+        [value]="selectedStudent.Baptism_Check"
+        [(ngModel)]="selectedStudent.Baptism_Check" />
+      <br>
+
+      <label class="student-label">Baptism Date: </label>
+      <ng2-datepicker
+        name="Baptism_Date"
+        [options]="options"
+        [(ngModel)]="baptismDate">
+      </ng2-datepicker>
+      <br>
+
+      <label class="student-label">Church of Baptism: </label>
+      <input
+        type="text"
+        name="Baptism_Church"
+        [(ngModel)]="selectedStudent.Baptism_Church" />
+      <br>
+
+      <label class="student-label">First Communion: </label>
+      <input
+        type="checkbox"
+        name="Eucharist_Received"
+        [value]="selectedStudent.Eucharist_Received"
+        [(ngModel)]="selectedStudent.Eucharist_Received" />
+      <br>
+
+      <label class="student-label">First Communion Date: </label>
+      <ng2-datepicker
+        name="Eucharist_Date"
+        [options]="options"
+        [(ngModel)]="eucharistDate">
+      </ng2-datepicker>
+      <br>
+
+      <label class="student-label">Church of First Communion: </label>
+      <input
+        type="text"
+        name="Eucharist_Church"
+        [(ngModel)]="selectedStudent.Eucharist_Church" />
+      <br>
+
+      <label class="student-label">Confirmation: </label>
+      <input
+        type="checkbox"
+        name="Confirmation_Received"
+        [value]="selectedStudent.Confirmation_Received"
+        [(ngModel)]="selectedStudent.Confirmation_Received" />
+      <br>
+
+      <label class="student-label">Confirmation Date: </label>
+      <ng2-datepicker
+        name="Confirmation_Date"
+        [options]="options"
+        [(ngModel)]="confirmationDate">
+      </ng2-datepicker>
+      <br>
+
+      <label class="student-label">Church of Confirmation: </label>
+      <input
+        type="text"
+        name="Confirmation_Church"
+        [(ngModel)]="selectedStudent.Confirmation_Church" />
+      <br>
+
+      <label class="student-label">Education Assistance: </label>
+      <input
+        type="checkbox"
+        name="Education_Assistance"
+        [value]="selectedStudent.Education_Assistance"
+        [(ngModel)]="selectedStudent.Education_Assistance" />
+      <br>
+
+      <label class="student-label">Education Assistance Notes: </label>
+      <textarea
+        name="Education_Assistance_Note"
+        placeholder="Any condition or accommodation required"
+        [(ngModel)]="selectedStudent.Education_Assistance_Note"></textarea>
+      <br>
+
+      <label class="student-label">Allergy Check: </label>
+      <input
+        type="checkbox"
+        name="Allergy_Check"
+        [value]="selectedStudent.Allergy_Check"
+        [(ngModel)]="selectedStudent.Allergy_Check" />
+      <br>
+
+      <label class="student-label">Allergy Notes: </label>
+      <textarea
+        name="Allergy_Note"
+        placeholder="Peanuts, latex, seasonal, medication"
+        [(ngModel)]="selectedStudent.Allergy_Note"></textarea>
+      <br>
+
+      <label class="student-label">Active: </label>
+      <input
+        type="checkbox"
+        name="Student_Active"
+        [value]="selectedStudent.Student_Active"
+        [(ngModel)]="selectedStudent.Student_Active" />
+      <br>
+      <br>
+    </div>
+    <div *ngIf="selectedStudent.Year_Description">
+      <h4>{{selectedStudent.Year_Description}} Registration Information</h4>
+
+      <div>
+        <label class="student-label">Preferred Session: </label>
+        {{selectedStudent.Preferred_Session_Name}}
+        <br>
+      </div>
+
+      <div>
+        <label class="student-label">{{selectedStudent.Year_Description}} Grade Level: </label>
+        {{selectedStudent.Student_Grade_Entering}}
+        <br>
+      </div>
+
+      <label class="student-label">Assigned Session: </label>
+      <select
+        #sessionID
+        name="Session_ID"
+        [(ngModel)]="selectedStudent.Session_ID"
+        (change)="loadClassrooms(sessionID.value, selectedStudent.Student_Grade_Entering)">
+        <option *ngFor="let session of sessions" [ngValue]="session.Session_ID">
+          {{session.Session_Name}}
+        </option>
+      </select>
+      <br>
+
+      <label class="student-label">Class: </label>
+      <select
+        name="Class_ID"
+        [(ngModel)]="selectedStudent.Class_ID">
+        <option *ngFor="let classroom of classrooms" [ngValue]="classroom.Class_ID">
+          {{classroom.Class_Grade}} - {{classroom.Teacher_Last_Name}}, {{classroom.Teacher_First_Name}}
+        </option>
+      </select>
+      <br>
+    </div>
+    <button type="Submit" [disabled]="!form.valid">Save</button>
+  </form>
+</div>
+
+<modal #viewNote>
+  <modal-header [show-close]="true"><h4>Student Notes</h4></modal-header>
+  <div *ngIf="noteId">
+    <modal-body>
+      <app-notes [noteOwner]="noteId"></app-notes>
+    </modal-body>
+  </div>
+</modal>

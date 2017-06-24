@@ -1,0 +1,127 @@
+<html lang="en" class="no-js">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
+</head>
+
+<body>
+<h1>School Year Management</h1>
+<br>
+<div>
+  <button type="button" class="btn btn-default" (click)="createSchoolYearModal.open()">Add School Year</button>
+  <br>
+  <br>
+  <modal #createSchoolYearModal>
+    <modal-header [show-close]="true"><h3>Add a School Year</h3></modal-header>
+    <modal-body>
+      <form #form="ngForm" (ngSubmit)="addSchoolYear(form.value); createSchoolYearModal.close()">
+
+        <label class="schoolyear-label">School Year Description: </label>
+        <input
+          required
+          type="text"
+          name="Year_Description"
+          placeholder="eg. 2017 - 2018"
+          [(ngModel)]="Year_Description">
+        <br>
+
+        <label class="schoolyear-label">Start Date: </label>
+        <ng2-datepicker
+          required
+          name="Year_Start_Date"
+          placeholder="click calendar icon"
+          [options]="options"
+          [(ngModel)]="Year_Start_Date">
+        </ng2-datepicker>
+        <br>
+
+        <label class="schoolyear-label">End Date: </label>
+        <ng2-datepicker
+          required
+          name="Year_End_Date"
+          placeholder="click calendar icon"
+          [options]="options"
+          [(ngModel)]="Year_End_Date">
+        </ng2-datepicker>
+        <br>
+
+        <button type="Submit" [disabled]="!form.valid">Submit</button>
+      </form>
+    </modal-body>
+  </modal>
+</div>
+<div>
+		<table class="schoolyears">
+			<tr class="noHover">
+				<th>Description</th>
+				<th>Start Date</th>
+				<th>End Date</th>
+				<th>Planning</th>
+				<th>Active</th>
+			</tr>
+			<tr *ngFor="let schoolyear of schoolyears"
+				[class.selected]="schoolyear === selectedSchoolYear"
+				(click) = "onSelect(schoolyear); updateSchoolYearModal.open()">
+				<td>{{schoolyear.Year_Description}}</td>
+				<td>{{schoolyear.Year_Start_Date | date: 'MM/dd/yyyy'}}</td>
+				<td>{{schoolyear.Year_End_Date | date: 'MM/dd/yyyy'}}</td>
+				<td><input type="checkbox" disabled [checked]="schoolyear.Year_Planning"></td>
+				<td><input type="checkbox" disabled [checked]="schoolyear.Year_Active"></td>
+			</tr>
+		</table>
+    <modal #updateSchoolYearModal>
+      <modal-header [show-close]="true"><h3>Update School Year</h3></modal-header>
+      <div *ngIf="selectedSchoolYear">
+      <modal-body>
+        <form #form="ngForm" (ngSubmit)="updateSchoolYear(form.value); updateSchoolYearModal.close()">
+
+          <label class="schoolyear-label">School Year Description: </label>
+          <input
+            required
+            type="text"
+            name="Year_Description"
+            [(ngModel)]="selectedSchoolYear.Year_Description">
+          <br>
+
+          <label class="schoolyear-label">Start Date: </label>
+          <ng2-datepicker
+            required
+            name="Year_Start_Date"
+            [options]="options"
+            [(ngModel)]="startDate">
+          </ng2-datepicker>
+          <br>
+
+          <label class="schoolyear-label">End Date: </label>
+          <ng2-datepicker
+            required
+            name="Year_End_Date"
+            [options]="options"
+            [(ngModel)]="endDate">
+          </ng2-datepicker>
+          <br>
+
+          <label class="schoolyear-label">School Year Planning: </label>
+          <input
+            type="checkbox"
+            name="Year_Planning"
+            [(ngModel)]="selectedSchoolYear.Year_Planning">
+          <br>
+
+          <label class="schoolyear-label">School Year Active: </label>
+          <input
+            type="checkbox"
+            name="Year_Active"
+            [(ngModel)]="selectedSchoolYear.Year_Active">
+          <br>
+
+          <button type="Submit" [disabled]="!form.valid">Submit</button>
+        </form>
+      </modal-body>
+      </div>
+    </modal>
+
+</div>
+</body>

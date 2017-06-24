@@ -1,0 +1,237 @@
+<html lang="en" class="no-js">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
+</head>
+
+<body>
+<h1>Students</h1>
+<br>
+
+<div *ngIf="students">
+  <table class="item-list">
+    <tr class="noHover">
+      <th>Student Name</th>
+      <th>Grade Level</th>
+      <th>Session</th>
+      <th>Teacher</th>
+    </tr>
+    <tr *ngFor="let student of students"
+        [class.selected]="student === selectedStudent"
+        (click) = "onSelect(student); updateStudentModal.open()">
+      <td>{{student.Student_Last_Name}}, {{student.Student_First_Name}}</td>
+      <td>{{student.Student_Grade_Entering}}</td>
+      <td>{{student.Session_Name}}</td>
+      <td>{{student.Teacher_First_Name}} {{student.Teacher_Last_Name}}</td>
+    </tr>
+  </table>
+</div>
+<modal #updateStudentModal>
+  <modal-header [show-close]="true"><h3>Update a Student</h3></modal-header>
+  <div *ngIf="selectedStudent">
+    <modal-body>
+      <form #form="ngForm"
+            (ngSubmit)="updateStudent(form.value);
+                        updateStudentModal.close()">
+        <div>
+          <h4>Student Information</h4>
+          <label class="student-label">Last Name: </label>
+          <input
+            type="text"
+            required
+            name="Student_Last_Name"
+            placeholder="Smith"
+            [(ngModel)]="selectedStudent.Student_Last_Name" />
+          <br>
+
+          <label class="student-label">First Name: </label>
+          <input
+            type="text"
+            required
+            name="Student_First_Name"
+            placeholder="John"
+            [(ngModel)]="selectedStudent.Student_First_Name" />
+          <br>
+
+          <label class="student-label">Middle Name: </label>
+          <input
+            type="text"
+            name="Student_Middle_Name"
+            placeholder=""
+            [(ngModel)]="selectedStudent.Student_Middle_Name" />
+          <br>
+
+          <label class="student-label">Gender: </label>
+          <select
+            required
+            name="Student_Gender"
+            [(ngModel)]="selectedStudent.Student_Gender">
+            <option [ngValue]="selectedStudent.Student_Gender">{{selectedStudent.Student_Gender}}</option>
+            <option [value]="1">Male</option>
+            <option [value]="2">Female</option>
+          </select>
+          <br>
+
+          <label class="student-label">Birth Date: </label>
+          <ng2-datepicker
+            required
+            name="Student_Birth_Date"
+            [options]="options"
+            [(ngModel)]="birthDate">
+          </ng2-datepicker>
+          <br>
+
+          <label class="student-label">Baptism: </label>
+          <input
+            type="checkbox"
+            name="Baptism_Check"
+            [value]="selectedStudent.Baptism_Check"
+            [(ngModel)]="selectedStudent.Baptism_Check" />
+          <br>
+
+          <label class="student-label">Baptism Date: </label>
+          <ng2-datepicker
+            name="Baptism_Date"
+            [options]="options"
+            [(ngModel)]="baptismDate">
+          </ng2-datepicker>
+          <br>
+
+          <label class="student-label">Church of Baptism: </label>
+          <input
+            type="text"
+            name="Baptism_Church"
+            [(ngModel)]="selectedStudent.Baptism_Church" />
+          <br>
+
+          <label class="student-label">First Communion: </label>
+          <input
+            type="checkbox"
+            name="Eucharist_Received"
+            [value]="selectedStudent.Eucharist_Received"
+            [(ngModel)]="selectedStudent.Eucharist_Received" />
+          <br>
+
+          <label class="student-label">First Communion Date: </label>
+          <ng2-datepicker
+            name="Eucharist_Date"
+            [options]="options"
+            [(ngModel)]="eucharistDate">
+          </ng2-datepicker>
+          <br>
+
+          <label class="student-label">Church of First Communion: </label>
+          <input
+            type="text"
+            name="Eucharist_Church"
+            [(ngModel)]="selectedStudent.Eucharist_Church" />
+          <br>
+
+          <label class="student-label">Confirmation: </label>
+          <input
+            type="checkbox"
+            name="Confirmation_Received"
+            [value]="selectedStudent.Confirmation_Received"
+            [(ngModel)]="selectedStudent.Confirmation_Received" />
+          <br>
+
+          <label class="student-label">Confirmation Date: </label>
+          <ng2-datepicker
+            name="Confirmation_Date"
+            [options]="options"
+            [(ngModel)]="confirmationDate">
+          </ng2-datepicker>
+          <br>
+
+          <label class="student-label">Church of Confirmation: </label>
+          <input
+            type="text"
+            name="Confirmation_Church"
+            [(ngModel)]="selectedStudent.Confirmation_Church" />
+          <br>
+
+          <label class="student-label">Education Assistance: </label>
+          <input
+            type="checkbox"
+            name="Education_Assistance"
+            [value]="selectedStudent.Education_Assistance"
+            [(ngModel)]="selectedStudent.Education_Assistance" />
+          <br>
+
+          <label class="student-label">Education Assistance Notes: </label>
+          <textarea
+            name="Education_Assistance_Note"
+            placeholder="Any condition or accommodation required"
+            [(ngModel)]="selectedStudent.Education_Assistance_Note"></textarea>
+          <br>
+
+          <label class="student-label">Allergy Check: </label>
+          <input
+            type="checkbox"
+            name="Allergy_Check"
+            [value]="selectedStudent.Allergy_Check"
+            [(ngModel)]="selectedStudent.Allergy_Check" />
+          <br>
+
+          <label class="student-label">Allergy Notes: </label>
+          <textarea
+            name="Allergy_Note"
+            placeholder="Peanuts, latex, seasonal, medication"
+            [(ngModel)]="selectedStudent.Allergy_Note"></textarea>
+          <br>
+
+          <label class="student-label">Active: </label>
+          <input
+            type="checkbox"
+            name="Student_Active"
+            [value]="selectedStudent.Student_Active"
+            [(ngModel)]="selectedStudent.Student_Active" />
+          <br>
+          <br>
+        </div>
+        <div>
+          <h4>{{selectedStudent.Year_Description}} Registration Information</h4>
+
+          <div>
+            <label class="student-label">Preferred Session: </label>
+            {{selectedStudent.Preferred_Session_Name}}
+            <br>
+          </div>
+
+          <div>
+            <label class="student-label">{{selectedStudent.Year_Description}} Grade Level: </label>
+            {{selectedStudent.Student_Grade_Entering}}
+            <br>
+          </div>
+
+          <label class="student-label">Assigned Session: </label>
+          <select
+            #sessionID
+            name="Session_ID"
+            [(ngModel)]="selectedStudent.Session_ID"
+            (change)="loadClassrooms(sessionID.value, selectedStudent.Student_Grade_Entering)">
+            <option *ngFor="let session of sessions" [ngValue]="session.Session_ID">
+              {{session.Session_Name}}
+            </option>
+          </select>
+          <br>
+
+          <label class="student-label">Class: </label>
+          <select
+            name="Class_ID"
+            [(ngModel)]="selectedStudent.Class_ID">
+            <option *ngFor="let classroom of classrooms" [ngValue]="classroom.Class_ID">
+              {{classroom.Class_Grade}} - {{classroom.Teacher_Last_Name}}, {{classroom.Teacher_First_Name}}
+            </option>
+          </select>
+          <br>
+        </div>
+        <button type="Submit" [disabled]="!form.valid">Save</button>
+      </form>
+      <button type="button" (click)="gotoFamily()">View Family</button>
+    </modal-body>
+  </div>
+</modal>
+</body>

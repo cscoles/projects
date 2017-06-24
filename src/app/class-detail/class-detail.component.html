@@ -1,0 +1,76 @@
+<html lang="en" class="no-js">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
+</head>
+
+<body>
+<h1>Class Details</h1>
+<br>
+<div *ngIf="classroom && students">
+  <form #form="ngForm"
+        (ngSubmit)="updateClassroom(form.value)">
+    <label class="classroom-label">Session: </label>
+    <select
+      required
+      [disabled]="students.length > 0"
+      name="Session_ID"
+      placeholder="Select a dropdown value"
+      [(ngModel)]="classroom.Session_ID">
+      <option *ngFor="let session of sessions" [ngValue]="session.Session_ID">
+        {{session.Year_Description}} {{session.Session_Name}}
+      </option>
+    </select>
+    <br>
+
+    <label class="classroom-label">Grade Level: </label>
+    <select
+      required
+      [disabled]="students.length > 0"
+      name="Class_Grade"
+      [(ngModel)]="classroom.Class_Grade">
+      <option value="Kindergarten">Kindergarten</option>
+      <option value="1st">1st</option>
+      <option value="2nd">2nd</option>
+      <option value="3rd">3rd</option>
+      <option value="4th">4th</option>
+      <option value="5th">5th</option>
+      <option value="6th">6th</option>
+      <option value="7th">7th</option>
+      <option value="8th">8th</option>
+    </select>
+    <br>
+
+    <label class="classroom-label">Teacher: </label>
+    <select
+      name="Teacher_ID"
+      [(ngModel)]="classroom.Teacher_ID">
+      <option *ngFor="let teacher of teachers" [ngValue]="teacher.Teacher_ID">
+        {{teacher.Teacher_First_Name}} {{teacher.Teacher_Last_Name}}
+      </option>
+
+    </select>
+    <br>
+
+    <button type="Submit" [disabled]="!form.valid">Update</button>
+  </form>
+  <br>
+  <div>
+    <h4>Student List</h4>
+    <table class="item-list">
+      <tr class="noHover">
+        <th>Student Name</th>
+        <th></th>
+      </tr>
+        <tr *ngFor="let student of students"
+            [class.selected]="student === selectedStudent"
+            (click) = "onSelect(student)">
+          <td>{{student.Student_Last_Name}}, {{student.Student_First_Name}}</td>
+          <td><button type="button" (click)="removeStudent(student)">Remove</button></td>
+        </tr>
+    </table>
+  </div>
+</div>
+</body>

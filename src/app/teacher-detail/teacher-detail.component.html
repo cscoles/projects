@@ -1,0 +1,85 @@
+<form #form="ngForm" (ngSubmit)="addTeacher(form.value)">
+
+  <label class="teach-label">Last Name: </label>
+  <input
+    type="text"
+    required
+    name="Teacher_Last_Name"
+    placeholder="Smith"
+    [(ngModel)]="Teacher_Last_Name" />
+  <br>
+
+  <label class="teach-label">First Name: </label>
+  <input
+    type="text"
+    required
+    name="Teacher_First_Name"
+    placeholder="John"
+    [(ngModel)]="Teacher_First_Name" />
+  <br>
+
+  <label class="teach-label">Phone Number 1: </label>
+  <input
+    type="text"
+    required
+    name="Teacher_Phone1"
+    placeholder="3145551212"
+    [(ngModel)]="Teacher_Phone1" />
+  <br>
+
+  <label class="teach-label">Phone 1 Type: </label>
+  <select
+    required
+    name="Teacher_Phone1_Type"
+    placeholder="Select a dropdown value"
+    [(ngModel)]="Teacher_Phone1_Type">
+    <option [value]="1">Mobile</option>
+    <option [value]="2">Home</option>
+    <option [value]="3">Work</option>
+  </select>
+  <br>
+
+  <label class="teach-label">Phone Number 2: </label>
+  <input
+    type="text"
+    name="Teacher_Phone2"
+    placeholder="3145551212"
+    [(ngModel)]="Teacher_Phone2" />
+  <br>
+
+  <label class="teach-label">Phone 2 Type: </label>
+  <select
+    name="Teacher_Phone2_Type"
+    placeholder="Select a dropdown value"
+    [(ngModel)]="Teacher_Phone2_Type">
+    <option [value]="1">Mobile</option>
+    <option [value]="2">Home</option>
+    <option [value]="3">Work</option>
+  </select>
+  <br>
+
+  <label class="teach-label">Email: </label>
+  <input
+    type="email"
+    required
+    name="Teacher_Email"
+    placeholder="joseph@gmail.com"
+    [(ngModel)]="Teacher_Email" />
+  <br>
+
+  <label class="teach-label">Protecting God's Children: </label>
+  <input
+    type="checkbox"
+    name="protecting_gods_children_check"
+    [(ngModel)]="protecting_gods_children_check" />
+  <br>
+
+  <label class="teach-label">Is a Parent: </label>
+  <input
+    type="checkbox"
+    name="Is_A_Parent"
+    [(ngModel)]="Is_A_Parent" />
+  <br>
+
+  <button type="Submit" [disabled]="!form.valid">Submit</button>
+</form>

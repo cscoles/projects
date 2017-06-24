@@ -1,0 +1,240 @@
+<html lang="en" class="no-js">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
+</head>
+
+<body>
+<h1>Teachers</h1>
+<br>
+<div>
+  <button type="button" class="btn btn-default" (click)="createTeacherModal.open()">Add Teacher</button>
+  <br>
+  <br>
+
+
+
+  <modal #createTeacherModal>
+    <modal-header [show-close]="true"><h3>Add a Teacher</h3></modal-header>
+    <modal-body>
+      <form #form="ngForm"
+            (ngSubmit)="addTeacher(form.value); createTeacherModal.close()">
+
+        <label class="teach-label">Last Name: </label>
+        <input
+          type="text"
+          required
+          name="Teacher_Last_Name"
+          placeholder="Smith"
+          [(ngModel)]="Teacher_Last_Name" />
+        <br>
+
+        <label class="teach-label">First Name: </label>
+        <input
+          type="text"
+          required
+          name="Teacher_First_Name"
+          placeholder="John"
+          [(ngModel)]="Teacher_First_Name" />
+        <br>
+
+        <label class="teach-label">Phone Number 1: </label>
+        <input
+          type="text"
+          required
+          name="Teacher_Phone1"
+          placeholder="3145551212"
+          [(ngModel)]="Teacher_Phone1" />
+        <br>
+
+        <label class="teach-label">Phone 1 Type: </label>
+        <select
+          required
+          name="Teacher_Phone1_Type"
+          placeholder="Select a dropdown value"
+          [(ngModel)]="Teacher_Phone1_Type">
+          <option [value]="1">Mobile</option>
+          <option [value]="2">Home</option>
+          <option [value]="3">Work</option>
+        </select>
+        <br>
+
+        <label class="teach-label">Phone Number 2: </label>
+        <input
+          type="text"
+          name="Teacher_Phone2"
+          placeholder="3145551212"
+          [(ngModel)]="Teacher_Phone2" />
+        <br>
+
+        <label class="teach-label">Phone 2 Type: </label>
+        <select
+          name="Teacher_Phone2_Type"
+          placeholder="Select a dropdown value"
+          [(ngModel)]="Teacher_Phone2_Type">
+          <option [value]="1">Mobile</option>
+          <option [value]="2">Home</option>
+          <option [value]="3">Work</option>
+        </select>
+        <br>
+
+        <label class="teach-label">Email: </label>
+        <input
+          type="email"
+          required
+          name="Teacher_Email"
+          placeholder="joseph@gmail.com"
+          [(ngModel)]="Teacher_Email" />
+        <br>
+
+        <label class="teach-label">Protecting God's Children: </label>
+        <input
+          type="checkbox"
+          name="Protecting_Gods_Children_Check"
+          [(ngModel)]="Protecting_Gods_Children_Check" />
+        <br>
+
+        <label class="teach-label">Is a Parent: </label>
+        <input
+          type="checkbox"
+          name="Is_A_Parent"
+          [(ngModel)]="Is_A_Parent" />
+        <br>
+
+        <button type="Submit" [disabled]="!form.valid">Submit</button>
+      </form>
+    </modal-body>
+  </modal>
+
+
+  <table class="item-list">
+    <tr class="noHover">
+      <th>Last Name</th>
+      <th>First Name</th>
+      <th>Phone #</th>
+      <th>Email</th>
+      <th>Active</th>
+    </tr>
+    <tr *ngFor="let teacher of teachers"
+      [class.selected]="teacher === selectedTeacher"
+      (click) = "onSelect(teacher); updateTeacherModal.open()">
+      <td>{{teacher.Teacher_Last_Name}}</td>
+      <td>{{teacher.Teacher_First_Name}}</td>
+      <td>{{teacher.Teacher_Phone1 | phone}}</td>
+      <td>{{teacher.Teacher_Email}}</td>
+      <td><input type="checkbox" disabled [checked]="teacher.Teacher_Active"></td>
+    </tr>
+  </table>
+
+
+
+
+  <modal #updateTeacherModal>
+    <modal-header [show-close]="true"><h3>Update a Teacher</h3></modal-header>
+    <div *ngIf="selectedTeacher">
+      <modal-body>
+        <form #form="ngForm"
+              (ngSubmit)="updateTeacher(form.value);
+              updateTeacherModal.close()">
+
+          <label class="teach-label">Last Name: </label>
+          <input
+            type="text"
+            required
+            name="Teacher_Last_Name"
+            placeholder="Smith"
+            [(ngModel)]="selectedTeacher.Teacher_Last_Name" />
+          <br>
+
+          <label class="teach-label">First Name: </label>
+          <input
+            type="text"
+            required
+            name="Teacher_First_Name"
+            placeholder="John"
+            [(ngModel)]="selectedTeacher.Teacher_First_Name" />
+          <br>
+
+          <label class="teach-label">Phone Number 1: </label>
+          <input
+            type="text"
+            required
+            name="Teacher_Phone1"
+            placeholder="3145551212"
+            [(ngModel)]="selectedTeacher.Teacher_Phone1" />
+          <br>
+
+          <label class="teach-label">Phone 1 Type: </label>
+          <select
+            required
+            name="Teacher_Phone1_Type"
+            [(ngModel)]="selectedTeacher.Teacher_Phone1_Type">
+            <option value="Mobile">Mobile</option>
+            <option value="Home">Home</option>
+            <option value="Work">Work</option>
+          </select>
+          <br>
+
+          <label class="teach-label">Phone Number 2: </label>
+          <input
+            type="text"
+            name="Teacher_Phone2"
+            placeholder="3145551212"
+            [(ngModel)]="selectedTeacher.Teacher_Phone2" />
+          <br>
+
+          <label class="teach-label">Phone 2 Type: </label>
+          <select
+            name="Teacher_Phone2_Type"
+            [(ngModel)]="selectedTeacher.Teacher_Phone2_Type">
+            <option [ngValue]="selectedTeacher.Teacher_Phone2_Type">
+              {{selectedTeacher.Teacher_Phone2_Type}}
+            </option>
+            <option [value]="1">Mobile</option>
+            <option [value]="2">Home</option>
+            <option [value]="3">Work</option>
+          </select>
+          <br>
+
+          <label class="teach-label">Email: </label>
+          <input
+            type="email"
+            required
+            name="Teacher_Email"
+            placeholder="joseph@gmail.com"
+            [(ngModel)]="selectedTeacher.Teacher_Email" />
+          <br>
+
+          <label class="teach-label">Protecting God's Children: </label>
+          <input
+            type="checkbox"
+            name="Protecting_Gods_Children_Check"
+            [value]="selectedTeacher.Protecting_Gods_Children_Check"
+            [(ngModel)]="selectedTeacher.Protecting_Gods_Children_Check" />
+          <br>
+
+          <label class="teach-label">Is a Parent: </label>
+          <input
+            type="checkbox"
+            name="Is_A_Parent"
+            [value]="selectedTeacher.Is_A_Parent"
+            [(ngModel)]="selectedTeacher.Is_A_Parent" />
+          <br>
+
+          <label class="teach-label">Active: </label>
+          <input
+            type="checkbox"
+            name="Teacher_Active"
+            [value]="selectedTeacher.Teacher_Active"
+            [(ngModel)]="selectedTeacher.Teacher_Active" />
+          <br>
+
+          <button type="Submit" [disabled]="!form.valid">Save</button>
+        </form>
+      </modal-body>
+    </div>
+  </modal>
+</div>
+</body>

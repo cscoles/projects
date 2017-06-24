@@ -1,0 +1,140 @@
+<html lang="en" class="no-js">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
+</head>
+
+<body>
+<h1>Classes</h1>
+<br>
+<div>
+  <button type="button" class="btn btn-default" (click)="createClass.open()">Add Class</button>
+  <br>
+  <br>
+  <modal #createClass>
+    <modal-header [show-close]="true"><h3>Add a Class</h3></modal-header>
+    <br>
+    <modal-body>
+      <form #form="ngForm"
+            (ngSubmit)="addClassroom(form.value); createClass.close()">
+        <label class="classroom-label">Session: </label>
+        <select
+          required
+          name="Session_ID"
+          placeholder="Select a dropdown value"
+          [(ngModel)]="Session_ID">
+          <option *ngFor="let session of sessions" [ngValue]="session.Session_ID">
+            {{session.Year_Description}} {{session.Session_Name}}
+          </option>
+        </select>
+        <br>
+
+        <label class="classroom-label">Grade Level: </label>
+        <select
+          required
+          name="Class_Grade"
+          [(ngModel)]="Class_Grade">
+          <option>Kindergarten</option>
+          <option>1st</option>
+          <option>2nd</option>
+          <option>3rd</option>
+          <option>4th</option>
+          <option>5th</option>
+          <option>6th</option>
+          <option>7th</option>
+          <option>8th</option>
+        </select>
+        <br>
+
+        <label class="classroom-label">Teacher: </label>
+        <select
+          name="Teacher_ID"
+          [(ngModel)]="Teacher_ID">
+          <option *ngFor="let teacher of teachers" [ngValue]="teacher.Teacher_ID">
+            {{teacher.Teacher_First_Name}} {{teacher.Teacher_Last_Name}}
+          </option>
+        </select>
+        <br>
+
+        <button type="Submit" [disabled]="!form.valid">Submit</button>
+      </form>
+
+    </modal-body>
+  </modal>
+
+
+
+  <!---- No more update class.  Choose to route to class detail. -->
+  <modal #updateClassModal>
+
+    <modal-header [show-close]="true"><h3>Update Class</h3></modal-header>
+    <div *ngIf="selectedClassroom">
+      <modal-body>
+        <form #form="ngForm"
+              (ngSubmit)="updateClassroom(form.value); updateClassModal.close()">
+          <label class="classroom-label">Session: </label>
+          <select
+            required
+            name="Session_ID"
+            placeholder="Select a dropdown value"
+            [(ngModel)]="selectedClassroom.Session_ID">
+            <option *ngFor="let session of sessions" [ngValue]="session.Session_ID">
+              {{session.Year_Description}} {{session.Session_Name}}
+            </option>
+          </select>
+          <br>
+
+          <label class="classroom-label">Grade Level: </label>
+          <select
+            required
+            name="Class_Grade"
+            [(ngModel)]="selectedClassroom.Class_Grade">
+            <option value="Kindergarten">Kindergarten</option>
+            <option value="1st">1st</option>
+            <option value="2nd">2nd</option>
+            <option value="3rd">3rd</option>
+            <option value="4th">4th</option>
+            <option value="5th">5th</option>
+            <option value="6th">6th</option>
+            <option value="7th">7th</option>
+            <option value="8th">8th</option>
+          </select>
+          <br>
+
+          <label class="classroom-label">Teacher: </label>
+          <select
+            name="Teacher_ID"
+            [(ngModel)]="selectedClassroom.Teacher_ID">
+            <option *ngFor="let teacher of teachers" [ngValue]="teacher.Teacher_ID">
+              {{teacher.Teacher_Last_Name}}, {{teacher.Teacher_First_Name}}
+            </option>
+
+          </select>
+          <br>
+
+          <button type="Submit" [disabled]="!form.valid">Submit</button>
+        </form>
+      </modal-body>
+    </div>
+  </modal>
+  <table class="item-list" width="1200">
+    <tr class="noHover">
+      <th>School Year</th>
+      <th>Session</th>
+      <th>Grade Level</th>
+      <th>Teacher</th>
+    </tr>
+    <tr *ngFor="let classroom of classrooms"
+        [class.selected]="classroom === selectedClass"
+        (click) = "onSelect(classroom)">
+      <td width="300">{{classroom.Year_Description}}</td>
+      <td width="300">{{classroom.Session_Name}}</td>
+      <td width="300">{{classroom.Class_Grade}}</td>
+      <td width="300">{{classroom.Teacher_First_Name}} {{classroom.Teacher_Last_Name}}</td>
+<!--      <td><input type="checkbox" disabled [checked]="teacher.Teacher_Active"></td> -->
+    </tr>
+  </table>
+</div>
+</body>

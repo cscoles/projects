@@ -1,0 +1,39 @@
+<div *ngIf="sNotes">
+  <table class="item-list">
+    <tr class="noHover">
+      <th>Note</th>
+      <th>Date</th>
+      <th></th>
+    </tr>
+    <tr>
+      <td><textarea #stuNote name="Student_Note"></textarea></td>
+      <td></td>
+      <td><button type="button" (click)="addStudentNote(stuNote)">Add</button></td>
+    </tr>
+    <tr *ngFor="let sNote of sNotes">
+      <td><textarea>{{sNote.Student_Note}}</textarea></td>
+      <td>{{sNote.Date_Created | date: 'MM/dd/yyyy'}}</td>
+      <td><button type="button" (click)="deleteStudentNote(sNote.Student_Note_ID)">Delete</button></td>
+    </tr>
+  </table>
+</div>
+
+<div *ngIf="fNotes">
+  <table class="item-list">
+    <tr class="noHover">
+      <th>Note</th>
+      <th>Date</th>
+      <th></th>
+    </tr>
+    <tr>
+      <td><textarea #famNote name="Family_Note"></textarea></td>
+      <td></td>
+      <td><button type="button" (click)="addFamilyNote(famNote)">Add</button></td>
+    </tr>
+    <tr *ngFor="let fNote of fNotes">
+      <td><textarea>{{fNote.Family_Note}}</textarea></td>
+      <td>{{fNote.Date_Created | date: 'MM/dd/yyyy'}}</td>
+      <td><button type="button" (click)="deleteFamilyNote(fNote.Family_Note_ID)">Delete</button></td>
+    </tr>
+  </table>
+</div>

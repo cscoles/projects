@@ -1,0 +1,608 @@
+<html lang="en" class="no-js">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
+</head>
+
+<body>
+<br>
+<button type="button" class="btn btn-default" (click)="getNotes(); notesView.open()">Family Notes</button>
+<button type="button" class="btn btn-default" (click)="getPayments(); paymentView.open()">Family Payments</button>
+<!-- <button type="button" class="btn btn-default" (click)="getAuth(); resetPassword.open()">resetPassword</button> -->
+
+<div id="Parents" class="notabcontent">
+  <h1>Parent or Guardian</h1>
+  <br>
+  <div *ngIf="parents">
+    <table class="item-list">
+      <tr class="noHover">
+        <th>Name</th>
+        <th>Phone #</th>
+        <th>Phone Type</th>
+        <th>Email</th>
+        <th>Relationship</th>
+      </tr>
+      <tr *ngFor="let parent of parents"
+          [class.selected]="parent === selectedParent"
+          (click) = "onSelectParent(parent); updateParentModal.open()">
+        <td>{{parent.Parent_Last_Name}}, {{parent.Parent_First_Name}}</td>
+        <td>{{parent.Parent_Phone1 | phone}}</td>
+        <td>{{parent.Parent_Phone1_Type}}</td>
+        <td>{{parent.Parent_Email}}</td>
+        <td>{{parent.Student_Relationship}}</td>
+      </tr>
+    </table>
+    <button [disabled]="parents.length > 1" type="button" class="btn btn-default" (click)="createParentModal.open()">Add Parent</button>
+  </div>
+</div>
+<br>
+<div id="Students" class="notabcontent">
+  <h1>Students</h1>
+  <br>
+  <div *ngIf="students">
+    <table class="item-list">
+      <tr class="noHover">
+        <th>Student Name</th>
+        <th>Grade Level</th>
+        <th>Session</th>
+        <th>Teacher</th>
+      </tr>
+      <tr *ngFor="let student of students"
+          [class.selected]="student === selectedStudent"
+          (click) = "onSelectStudent(student); updateStudentModal.open()">
+        <td>{{student.Student_Last_Name}}, {{student.Student_First_Name}}</td>
+        <td>{{student.Student_Grade_Entering}}</td>
+        <td>{{student.Session_Name}}</td>
+        <td>{{student.Teacher_First_Name}} {{student.Teacher_Last_Name}}</td>
+      </tr>
+    </table>
+    <button type="button" class="btn btn-default" (click)="createStudentModal.open()">Add Student</button>
+
+    <modal #updateStudentModal>
+      <modal-header [show-close]="true"><h4>Update a Student</h4></modal-header>
+      <div *ngIf="selectedStudent">
+        <modal-body>
+          <app-student [selectedStudent]="selectedStudent"></app-student>
+        </modal-body>
+      </div>
+    </modal>
+  </div>
+</div>
+
+<div id="Registration" class="notabcontent">
+  <div *ngIf="pSessions">
+    <h1>{{planYear[0].Year_Description}} Registration</h1>
+    <br>
+    <div *ngIf="regStudents">
+      <table class="item-list">
+        <tr class="noHover">
+          <th>Student Name</th>
+          <th>Entering Grade</th>
+          <th>Preferred Session</th>
+          <th>Register?</th>
+        </tr>
+        <tr *ngFor="let regStudent of regStudents">
+          <td>{{regStudent.Student_Last_Name}}, {{regStudent.Student_First_Name}}</td>
+          <td>
+            <select #classId name="Student_Grade_Entering" [(ngModel)]="regStudent.Student_Grade_Entering">
+              <option>Kindergarten</option>
+              <option>1st</option>
+              <option>2nd</option>
+              <option>3rd</option>
+              <option>4th</option>
+              <option>5th</option>
+              <option>6th</option>
+              <option>7th</option>
+              <option>8th</option>
+            </select>
+          </td>
+          <td>
+            <select #sesId name="Preferred_Session_ID" [(ngModel)]="regStudent.Preferred_Session_ID">
+              <option *ngFor="let pSession of pSessions" [ngValue]="pSession.Session_ID">
+                {{pSession.Session_Name}}
+              </option>
+            </select>
+          </td>
+          <td><button [disabled]="regStudent.Student_Registration_ID != null" type="button" (click)="addRegistration(regStudent.Student_ID, classId.value, sesId.value)">Register</button></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+<!-- This is the form to update the family contents... -->
+<div id="Family" class="notabcontent">
+  <div *ngIf="family">
+    <form #form="ngForm" (ngSubmit)="updateFamily(form.value)">
+      <h1>Emergency Contact Information</h1>
+      <br>
+      <div class="info-border">
+        <label class="new-reg-label">Last Name: </label>
+        <input
+          required
+          type="text"
+          name="Emergency_Last_Name"
+          placeholder="e.g. Jones"
+          [(ngModel)]="family.Emergency_Last_Name">
+        <br>
+
+        <label class="new-reg-label">First Name: </label>
+        <input
+          required
+          type="text"
+          name="Emergency_First_Name"
+          placeholder="e.g. Suzy"
+          [(ngModel)]="family.Emergency_First_Name">
+        <br>
+
+        <label class="new-reg-label">Primary Phone Number: </label>
+        <input
+          required
+          type="text"
+          name="Emergency_Phone1"
+          placeholder="e.g. 3145551212"
+          [(ngModel)]="family.Emergency_Phone1">
+        <br>
+
+        <label class="new-reg-label">Primary Phone Type: </label>
+        <select
+          required
+          class="parent-input"
+          name="Emergency_Phone_Type1"
+          [(ngModel)]="family.Emergency_Phone_Type1">
+          <option value="Mobile">Mobile</option>
+          <option value="Home">Home</option>
+          <option value="Work">Work</option>
+        </select>
+        <br>
+
+        <label class="new-reg-label">Secondary Phone Number: </label>
+        <input
+          type="text"
+          name="Emergency_Phone2"
+          placeholder="e.g. 3145551212"
+          [(ngModel)]="family.Emergency_Phone2">
+        <br>
+
+        <label class="new-reg-label">Secondary Phone Type: </label>
+        <select
+          class="parent-input"
+          name="Emergency_Phone_Type2"
+          [(ngModel)]="family.Emergency_Phone_Type2">
+          <option value="Mobile">Mobile</option>
+          <option value="Home">Home</option>
+          <option value="Work">Work</option>
+        </select>
+        <br>
+      </div>
+      <h1>Medical Information</h1>
+      <br>
+      <div class="info-border">
+        <label class="new-reg-label">Physician's Last Name: </label>
+        <input
+          required
+          type="text"
+          name="Physician_Last_Name"
+          placeholder="e.g. Ross"
+          [(ngModel)]="family.Physician_Last_Name">
+        <br>
+
+        <label class="new-reg-label">Physician's First Name: </label>
+        <input
+          required
+          type="text"
+          name="Physician_First_Name"
+          placeholder="e.g. Alex"
+          [(ngModel)]="family.Physician_First_Name">
+        <br>
+
+        <label class="new-reg-label">Physician's Phone Number: </label>
+        <input
+          required
+          type="text"
+          name="Physician_Phone"
+          placeholder="e.g. 3145551212"
+          [(ngModel)]="family.Physician_Phone">
+        <br>
+
+        <label class="new-reg-label">Medical Consent: </label>
+        <input
+          type="checkbox"
+          name="Medical_Consent"
+          [(ngModel)]="family.Medical_Consent">
+        <br>
+      </div>
+      <br>
+      <label class="new-reg-label">Registered Parishioners: </label>
+      <input
+        type="checkbox"
+        name="Registered_Parishioner"
+        [(ngModel)]="family.Registered_Parishioner">
+      <br>
+
+      <label class="new-reg-label">Child(ren) Live With: </label>
+      <select
+        required
+        class="parent-input"
+        name="Children_Lives_With"
+        [(ngModel)]="family.Children_Lives_With">
+        <option value="Both Parents">Both Parents</option>
+        <option value="Mother">Mother</option>
+        <option value="Father">Father</option>
+        <option value="Joint Custody">Joint Custody</option>
+        <option value="Other">Other</option>
+      </select>
+      <br>
+
+      <label class="new-reg-label">Children may not be released to: </label>
+      <textarea
+        name="Family_No_Release"
+        placeholder="e.g. John Doe, Jane Doe"
+        [(ngModel)]="family.Family_No_Release"></textarea>
+      <br>
+
+      <label class="new-reg-label">Permission for Media Use: </label>
+      <select
+        required
+        class="parent-input"
+        name="Media_Permission"
+        [(ngModel)]="family.Media_Permission">
+        <option value="Photographs, interviews and name may be used">Photographs, interviews and name may be used</option>
+        <option value="Photographs only">Photographs only</option>
+        <option value="No permission">No permission</option>
+      </select>
+      <br>
+
+      <label class="new-reg-label">Catholic Witness Agreement: </label>
+      <input
+        disabled
+        type="checkbox"
+        name="Witness_Agreement"
+        [(ngModel)]="family.Witness_Agreement">
+      <br>
+
+      <label class="new-reg-label">Safe Touch Agreement: </label>
+      <input
+        disabled
+        type="checkbox"
+        name="Safe_Touch_Agreement"
+        [(ngModel)]="family.Safe_Touch_Agreement">
+      <br>
+      <br>
+      <button type="Submit">Update Family</button>
+      <!-- <button type="Submit" [disabled]="!form.valid">Update Family</button> -->
+    </form>
+    <br>
+  </div>
+</div>
+
+<!--  Parent Create Form and Modal -->
+
+<modal #createParentModal>
+  <modal-header [show-close]="true"><h4>Add a Parent/Guardian</h4></modal-header>
+  <modal-body>
+    <h4>Parent</h4>
+
+    <form #form="ngForm" (ngSubmit)="addParent(form.value); createParentModal.close()">
+
+      <label class="new-reg-label">Last Name: </label>
+      <input
+        required
+        type="text"
+        name="Parent_Last_Name"
+        placeholder="e.g. Smith"
+        [(ngModel)]="Parent_Last_Name">
+      <br>
+
+      <label class="new-reg-label">First Name: </label>
+      <input
+        required
+        type="text"
+        name="Parent_First_Name"
+        placeholder="e.g. John"
+        [(ngModel)]="Parent_First_Name">
+      <br>
+
+      <label class="new-reg-label">Relationship to Student: </label>
+      <select
+        required
+        class="parent-input"
+        name="Student_Relationship"
+        [(ngModel)]="Student_Relationship">
+        <option>Father</option>
+        <option>Mother</option>
+        <option>Guardian</option>
+        <option>Other</option>
+      </select>
+      <br>
+
+      <label class="new-reg-label">Address 1: </label>
+      <input
+        required
+        type="text"
+        name="Parent_Address_1"
+        placeholder="e.g. 123 Main St"
+        [(ngModel)]="Parent_Address_1">
+      <br>
+
+      <label class="new-reg-label">Address 2: </label>
+      <input
+        type="text"
+        name="Parent_Address_2"
+        placeholder="e.g. Apt. C"
+        [(ngModel)]="Parent_Address_2">
+      <br>
+
+      <label class="new-reg-label">City: </label>
+      <input
+        required
+        type="text"
+        name="Parent_City"
+        placeholder="e.g. St. Louis"
+        [(ngModel)]="Parent_City">
+      <br>
+
+      <label class="new-reg-label">State: </label>
+      <input
+        type="text"
+        name="Parent_State"
+        placeholder="e.g. MO"
+        [(ngModel)]="Parent_State">
+      <br>
+
+      <label class="new-reg-label">Zip Code: </label>
+      <input
+        required
+        type="text"
+        name="Parent_Zip"
+        placeholder="e.g. 63101"
+        [(ngModel)]="Parent_Zip">
+      <br>
+
+      <label class="new-reg-label">Primary Phone Number: </label>
+      <input
+        required
+        type="text"
+        name="Parent_Phone1"
+        placeholder="e.g. 3145551212"
+        [(ngModel)]="Parent_Phone1">
+      <br>
+
+      <label class="new-reg-label">Primary Phone Type: </label>
+      <select
+        required
+        class="parent-input"
+        name="Parent_Phone1_Type"
+        [(ngModel)]="Parent_Phone1_Type">
+        <option [value]="1">Mobile</option>
+        <option [value]="2">Home</option>
+        <option [value]="3">Work</option>
+      </select>
+      <br>
+
+      <label class="new-reg-label">Secondary Phone Number: </label>
+      <input
+        type="text"
+        name="Parent_Phone2"
+        placeholder="e.g. 3145551212"
+        [(ngModel)]="Parent_Phone2">
+      <br>
+
+      <label class="new-reg-label">Secondary Phone Type: </label>
+      <select
+        class="parent-input"
+        name="Parent_Phone2_Type"
+        [(ngModel)]="Parent_Phone2_Type">
+        <option>Mobile</option>
+        <option>Home</option>
+        <option>Work</option>
+      </select>
+      <br>
+
+      <label class="new-reg-label">Email Address: </label>
+      <input
+        required
+        type="email"
+        name="Parent_Email"
+        placeholder="e.g. user@email.com"
+        [(ngModel)]="Parent_Email">
+      <br>
+
+      <button type="Submit" [disabled]="!form.valid">Add Parent</button>
+    </form>
+
+
+  </modal-body>
+</modal>
+
+
+<modal #updateParentModal>
+  <modal-header [show-close]="true"><h4>Update a Parent/Guardian</h4></modal-header>
+  <div *ngIf="selectedParent">
+    <modal-body>
+      <h4>Parent</h4>
+
+      <form #form="ngForm" (ngSubmit)="updateParent(form.value); updateParentModal.close()">
+
+        <label class="new-reg-label">Last Name: </label>
+        <input
+          required
+          type="text"
+          name="Parent_Last_Name"
+          placeholder="e.g. Smith"
+          [(ngModel)]="selectedParent.Parent_Last_Name">
+        <br>
+
+        <label class="new-reg-label">First Name: </label>
+        <input
+          required
+          type="text"
+          name="Parent_First_Name"
+          placeholder="e.g. John"
+          [(ngModel)]="selectedParent.Parent_First_Name">
+        <br>
+
+        <label class="new-reg-label">Relationship to Student: </label>
+        <select
+          required
+          class="parent-input"
+          name="Student_Relationship"
+          [(ngModel)]="selectedParent.Student_Relationship">
+          <option value="Father">Father</option>
+          <option value="Mother">Mother</option>
+          <option value="Guardian">Guardian</option>
+          <option value="Other">Other</option>
+        </select>
+        <br>
+
+        <label class="new-reg-label">Address 1: </label>
+        <input
+          required
+          type="text"
+          name="Parent_Address_1"
+          placeholder="e.g. 123 Main St"
+          [(ngModel)]="selectedParent.Parent_Address_1">
+        <br>
+
+        <label class="new-reg-label">Address 2: </label>
+        <input
+          type="text"
+          name="Parent_Address_2"
+          placeholder="e.g. Apt. C"
+          [(ngModel)]="selectedParent.Parent_Address_2">
+        <br>
+
+        <label class="new-reg-label">City: </label>
+        <input
+          required
+          type="text"
+          name="Parent_City"
+          placeholder="e.g. St. Louis"
+          [(ngModel)]="selectedParent.Parent_City">
+        <br>
+
+        <label class="new-reg-label">State: </label>
+        <input
+          type="text"
+          name="Parent_State"
+          placeholder="e.g. MO"
+          [(ngModel)]="selectedParent.Parent_State">
+        <br>
+
+        <label class="new-reg-label">Zip Code: </label>
+        <input
+          required
+          type="text"
+          name="Parent_Zip"
+          placeholder="e.g. 63101"
+          [(ngModel)]="selectedParent.Parent_Zip">
+        <br>
+
+        <label class="new-reg-label">Primary Phone Number: </label>
+        <input
+          required
+          type="text"
+          name="Parent_Phone1"
+          placeholder="e.g. 3145551212"
+          [(ngModel)]="selectedParent.Parent_Phone1">
+        <br>
+
+        <label class="new-reg-label">Primary Phone Type: </label>
+        <select
+          required
+          class="parent-input"
+          name="Parent_Phone1_Type"
+          [(ngModel)]="selectedParent.Parent_Phone1_Type">
+          <option value="Mobile">Mobile</option>
+          <option value="Home">Home</option>
+          <option value="Work">Work</option>
+        </select>
+        <br>
+
+        <label class="new-reg-label">Secondary Phone Number: </label>
+        <input
+          type="text"
+          name="Parent_Phone2"
+          placeholder="e.g. 3145551212"
+          [(ngModel)]="selectedParent.Parent_Phone2">
+        <br>
+
+        <label class="new-reg-label">Secondary Phone Type: </label>
+        <select
+          class="parent-input"
+          name="Parent_Phone2_Type"
+          [(ngModel)]="selectedParent.Parent_Phone2_Type">
+          <option value="Mobile">Mobile</option>
+          <option value="Home">Home</option>
+          <option value="Work">Work</option>
+        </select>
+        <br>
+
+        <label class="new-reg-label">Email Address: </label>
+        <input
+          required
+          type="email"
+          name="Parent_Email"
+          placeholder="e.g. user@email.com"
+          [(ngModel)]="selectedParent.Parent_Email">
+        <br>
+
+        <label class="new-reg-label">Active: </label>
+        <input
+          required
+          type="checkbox"
+          name="Parent_Active"
+          [(ngModel)]="selectedParent.Parent_Active">
+        <br>
+
+        <button type="Submit" [disabled]="!form.valid">Update Parent</button>
+      </form>
+
+
+    </modal-body>
+  </div>
+</modal>
+
+
+<modal #createStudentModal>
+  <modal-header [show-close]="true"><h4>Add a Student</h4></modal-header>
+  <div *ngIf="family">
+    <modal-body>
+      <app-student [familyId]="family.Family_ID"></app-student>
+    </modal-body>
+  </div>
+</modal>
+
+<modal #resetPassword>
+  <modal-header [show-close]="true"><h4>Family Notes</h4></modal-header>
+  <div>
+    <modal-body>
+      <div>{{passMessage}}</div>
+      <p style="width: 300px; margin-left: 30px">By clicking the button below, the password will be reset to the value 'letmein!' without the quotes.  This is not reversible.</p>
+      <button type="button" (click)="resetPassword">Reset Password</button>
+    </modal-body>
+  </div>
+</modal>
+
+
+<modal #notesView>
+  <modal-header [show-close]="true"><h4>Family Notes</h4></modal-header>
+  <div *ngIf="noteId">
+    <modal-body>
+      <app-notes [noteOwner]="noteId"></app-notes>
+    </modal-body>
+  </div>
+</modal>
+
+<modal #paymentView>
+  <modal-header [show-close]="true"><h4>Payments</h4></modal-header>
+  <div *ngIf="paymentId">
+    <modal-body>
+      <app-payment [paymentOwner]="paymentId"></app-payment>
+    </modal-body>
+  </div>
+</modal>
+</body>

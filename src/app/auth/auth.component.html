@@ -1,0 +1,31 @@
+<html lang="en" class="no-js">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
+</head>
+
+<body>
+<br>
+<div style="width: 200px; color: red;" *ngIf="message">{{message}}</div>
+
+  <div style="width: 300px;">
+
+    <form #form="ngForm" (ngSubmit)="authUser(form.value)">
+      <label class="auth-label">User Name: </label>
+
+      <input required type="text" name="Auth_Name" [(ngModel)]="Auth_Name">
+      <br>
+      <label class="auth-label">Password: </label>
+      <input required type="password" name="Auth_Password" [(ngModel)]="Auth_Password">
+      <br>
+      <br>
+      <button type="Submit" [disabled]="!form.valid">Login</button>
+    </form>
+    <br>
+    <br>
+    <div style="width: 250px;" (click)="gotoNewReg()"><a>New Registration</a></div>
+  </div>
+  </body>
+  </html>

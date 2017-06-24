@@ -1,0 +1,33 @@
+<form #form="ngForm" (ngSubmit)="addSchoolYear(form.value)">
+
+  <label class="schoolyear-label">School Year Description: </label>
+  <input
+    required
+    type="text"
+    name="Year_Description"
+    placeholder="eg. 2017 - 2018"
+    [(ngModel)]="Year_Description">
+  <br>
+
+  <label class="schoolyear-label">Start Date: </label>
+    <ng2-datepicker
+      required
+      name="Year_Start_Date"
+      placeholder="click calendar icon"
+      [options]="options"
+      [(ngModel)]="Year_Start_Date">
+    </ng2-datepicker>
+  <br>
+
+  <label class="schoolyear-label">End Date: </label>
+  <ng2-datepicker
+    required
+    name="Year_End_Date"
+    placeholder="click calendar icon"
+    [options]="options"
+    [(ngModel)]="Year_End_Date">
+  </ng2-datepicker>
+  <br>
+
+  <button type="Submit" [disabled]="!form.valid">Submit</button>
+</form>

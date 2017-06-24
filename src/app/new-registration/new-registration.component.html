@@ -1,0 +1,324 @@
+<html lang="en" class="no-js">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
+</head>
+
+<body>
+<div class="content-wrapper">
+
+  <h1>New Registration</h1>
+  <br>
+  <div *ngIf="message">{{message}}</div>
+  <form #form="ngForm" (ngSubmit)="getAuth(form.value)">
+  <div class="info-border">
+    <label class="new-reg-label">Email Address: </label>
+    <input
+      required
+      type="email"
+      name="Parent_Email"
+      placeholder="e.g. user@email.com"
+      [(ngModel)]="Parent_Email">
+    <br>
+
+    <label class="new-reg-label">Password: </label>
+    <input
+      required
+      type="password"
+      name="Auth_Password"
+      [(ngModel)]="Auth_Password">
+    <br>
+
+    <label class="new-reg-label">Check Password: </label>
+    <input
+      required
+      type="password"
+      name="Check_Password"
+      [(ngModel)]="Check_Password">
+    <br>
+  </div>
+  <br>
+  <label class="new-reg-label">Last Name: </label>
+  <input
+    required
+    type="text"
+    name="Parent_Last_Name"
+    placeholder="e.g. Smith"
+    [(ngModel)]="Parent_Last_Name">
+  <br>
+
+  <label class="new-reg-label">First Name: </label>
+  <input
+    required
+    type="text"
+    name="Parent_First_Name"
+    placeholder="e.g. John"
+    [(ngModel)]="Parent_First_Name">
+  <br>
+
+  <label class="new-reg-label">Relationship to Student: </label>
+  <select
+    required
+    class="parent-input"
+    name="Student_Relationship"
+    [(ngModel)]="Student_Relationship">
+    <option>Father</option>
+    <option>Mother</option>
+    <option>Guardian</option>
+    <option>Other</option>
+  </select>
+  <br>
+
+  <label class="new-reg-label">Address 1: </label>
+  <input
+    required
+    type="text"
+    name="Parent_Address_1"
+    placeholder="e.g. 123 Main St"
+    [(ngModel)]="Parent_Address_1">
+  <br>
+
+  <label class="new-reg-label">Address 2: </label>
+  <input
+    type="text"
+    name="Parent_Address_2"
+    placeholder="e.g. Apt. C"
+    [(ngModel)]="Parent_Address_2">
+  <br>
+
+  <label class="new-reg-label">City: </label>
+  <input
+    required
+    type="text"
+    name="Parent_City"
+    placeholder="e.g. St. Louis"
+    [(ngModel)]="Parent_City">
+  <br>
+
+  <label class="new-reg-label">State: </label>
+  <input
+    type="text"
+    name="Parent_State"
+    placeholder="e.g. MO"
+    [(ngModel)]="Parent_State">
+  <br>
+
+  <label class="new-reg-label">Zip Code: </label>
+  <input
+    required
+    type="text"
+    name="Parent_Zip"
+    placeholder="e.g. 63101"
+    [(ngModel)]="Parent_Zip">
+  <br>
+
+  <label class="new-reg-label">Primary Phone Number: </label>
+  <input
+    required
+    type="text"
+    name="Parent_Phone1"
+    placeholder="e.g. 3145551212"
+    [(ngModel)]="Parent_Phone1">
+  <br>
+
+  <label class="new-reg-label">Primary Phone Type: </label>
+  <select
+    required
+    class="parent-input"
+    name="Parent_Phone1_Type"
+    [(ngModel)]="Parent_Phone1_Type">
+    <option [value]="1">Mobile</option>
+    <option [value]="2">Home</option>
+    <option [value]="3">Work</option>
+  </select>
+  <br>
+
+  <label class="new-reg-label">Secondary Phone Number: </label>
+  <input
+    type="text"
+    name="Parent_Phone2"
+    placeholder="e.g. 3145551212"
+    [(ngModel)]="Parent_Phone2">
+  <br>
+
+  <label class="new-reg-label">Secondary Phone Type: </label>
+  <select
+    class="parent-input"
+    name="Parent_Phone2_Type"
+    [(ngModel)]="Parent_Phone2_Type">
+    <option [value]="1">Mobile</option>
+    <option [value]="2">Home</option>
+    <option [value]="3">Work</option>
+  </select>
+  <br>
+
+  <h1>Emergency Contact Information</h1>
+  <br>
+    <div class="info-border">
+      <label class="new-reg-label">Last Name: </label>
+      <input
+        required
+        type="text"
+        name="Emergency_Last_Name"
+        placeholder="e.g. Jones"
+        [(ngModel)]="Emergency_Last_Name">
+      <br>
+
+      <label class="new-reg-label">First Name: </label>
+      <input
+        required
+        type="text"
+        name="Emergency_First_Name"
+        placeholder="e.g. Suzy"
+        [(ngModel)]="Emergency_First_Name">
+      <br>
+
+      <label class="new-reg-label">Primary Phone Number: </label>
+      <input
+        required
+        type="text"
+        name="Emergency_Phone1"
+        placeholder="e.g. 3145551212"
+        [(ngModel)]="Emergency_Phone1">
+      <br>
+
+      <label class="new-reg-label">Primary Phone Type: </label>
+      <select
+        required
+        class="parent-input"
+        name="Emergency_Phone_Type1"
+        [(ngModel)]="Emergency_Phone_Type1">
+        <option [value]="1">Mobile</option>
+        <option [value]="2">Home</option>
+        <option [value]="3">Work</option>
+      </select>
+      <br>
+
+      <label class="new-reg-label">Secondary Phone Number: </label>
+      <input
+        type="text"
+        name="Emergency_Phone2"
+        placeholder="e.g. 3145551212"
+        [(ngModel)]="Emergency_Phone2">
+      <br>
+
+      <label class="new-reg-label">Secondary Phone Type: </label>
+      <select
+        class="parent-input"
+        name="Emergency_Phone_Type2"
+        [(ngModel)]="Emergency_Phone_Type2">
+        <option [value]="1">Mobile</option>
+        <option [value]="2">Home</option>
+        <option [value]="3">Work</option>
+      </select>
+      <br>
+    </div>
+  <h1>Medical Information</h1>
+  <br>
+  <div class="info-border">
+    <label class="new-reg-label">Physician's Last Name: </label>
+    <input
+      required
+      type="text"
+      name="Physician_Last_Name"
+      placeholder="e.g. Ross"
+      [(ngModel)]="Physician_Last_Name">
+    <br>
+
+    <label class="new-reg-label">Physician's First Name: </label>
+    <input
+      required
+      type="text"
+      name="Physician_First_Name"
+      placeholder="e.g. Alex"
+      [(ngModel)]="Physician_First_Name">
+    <br>
+
+    <label class="new-reg-label">Physician's Phone Number: </label>
+    <input
+      required
+      type="text"
+      name="Physician_Phone"
+      placeholder="e.g. 3145551212"
+      [(ngModel)]="Physician_Phone">
+    <br>
+
+    <label class="new-reg-label">Medical Consent: </label>
+    <input
+      required
+      type="checkbox"
+      name="Medical_Consent"
+      [(ngModel)]="Medical_Consent">
+    <br>
+  </div>
+  <br>
+  <label class="new-reg-label">Registered Parishioners: </label>
+  <input
+    required
+    type="checkbox"
+    name="Registered_Parishioner"
+    [(ngModel)]="Registered_Parishioner">
+  <br>
+
+  <label class="new-reg-label">Child(ren) Live With: </label>
+  <select
+    required
+    class="parent-input"
+    name="Children_Lives_With"
+    [(ngModel)]="Children_Lives_With">
+    <option [value]="1">Both Parents</option>
+    <option [value]="2">Mother</option>
+    <option [value]="3">Father</option>
+    <option [value]="4">Joint Custody</option>
+    <option [value]="5">Other</option>
+  </select>
+  <br>
+
+  <label class="new-reg-label">Children may not be released to: </label>
+  <textarea
+    name="Family_No_Release"
+    placeholder="e.g. John Doe, Jane Doe"
+    [(ngModel)]="Family_No_Release"></textarea>
+  <br>
+
+  <label class="new-reg-label">Permission for Media Use: </label>
+  <select
+    required
+    class="parent-input"
+    name="Media_Permission"
+    [(ngModel)]="Media_Permission">
+    <option [value]="1">Photographs, interviews and name may be used</option>
+    <option [value]="2">Photographs only</option>
+    <option [value]="3">No permission</option>
+  </select>
+  <br>
+  <br>
+  <h4>Catholic Witness Statement</h4>
+  <br>
+  <p style="width: 1000px">Archdiocese of Saint Louis Witness Statement For those seeking to enroll their children in a Catholic Parish School of Religion. One of the supreme gifts of humanity is bringing forth new life. God entrusts children to parents who have a primary right and duty to educate their children in the practice of their faith. Parents carry out this responsibility by creating a home full of love, forgiveness, respect, and fidelity. The family is the community in which, from childhood, one honors God and learns moral values. In the rite of the sacrament of Baptism, parents receive the call from God to evangelize their children, as here summarized: You have asked to have you child baptized. In doing so you are accepting the responsibility of training him (her) in the practice of the faith. It will be your duty to bring him (her) up to keep God’s commandments as Christ taught us, by loving God and our neighbor…You will be the first teachers of your child in the ways of the faith. May you also be the best of teachers, bearing witness to the faith by what you say and do, in Christ Jesus our Lord. No wonder then, that the Church understands the home to be the domestic church. It is in the intimate environment of the family that parents are, by word and example the first heralds of the faith with respect to their children. This environment is enhanced and deepened through the parish Eucharistic community that is the heart of the spiritual life for Christian families. Catholic schools and parish religious education programs are in partnership with the family in proclaiming and witnessing to the person and life of Jesus Christ. They assist parents in fulfilling their responsibility as the primary religious educators of their children. Aware, then, of the dignity of this holy parental call, and with a reverent awe for that responsibility which is mine, I commit myself to be, in word and deed, the first and best teacher of my children in the faith. Practically, this means I will: Understand that the authentic teachings of Jesus as taught by the Catholic Church will be part of my child’s education and formation. To the best of my ability respect the teachings of the Church and help my children respect the Church and its teachings. Regularly participate in the Sunday Eucharist (if not Catholic, regularly participate in worship and prayer) with my family. Commit to speak more with my children about God and to include prayer in our daily home life. Participate in and cooperate with Parish School of Religion programs that enable me as a parent to take an active role in the religious education of my children, including sacramental preparations. Support the moral and social teachings of the Catholic Church to ensure consistency between home and school. Teach my children by word and example to have love and concern for the needs of others. Meet my financial responsibilities in supporting St. Joseph Parish School of Religion. Please check the box provided to “sign” the Catholic Witness Statement and state that you understand your responsibility as a PSR parent and the goals of the PSR program.</p>
+  <label class="new-reg-label">Catholic Witness Agreement: </label>
+  <input
+    required
+    type="checkbox"
+    name="Witness_Agreement"
+    [(ngModel)]="Witness_Agreement">
+  <br>
+  <br>
+  <h4>Safe Touch Statement</h4>
+  <br>
+  <p style="width: 1000px;">Safe Touch Curriculum As a caring Catholic Community, and as part of our ongoing commitment to provide a safe and healthy environment for our children, the Archdiocese Child and Safety Committee has developed a school based curriculum for grades K-8 that contains practical and helpful information to help children protect themselves from the dangers that exist today. The objective of the curriculum, entitled Safe Touch, is to teach children self protection skills. Children learn body safety rules in an age appropriate and non-threatening manner. This curriculum will be presented by a trained leader in our parish. It will take ½ of the class period. The Safe Touch curriculum approaches safety issues in a respectful manner, connecting our Catholic Values with information to keep our children safe. Please do not hesitate to contact me if you have any questions or concerns regarding this important piece of your child’s education. You may come into the school office during PSR class time any time before the dates we present to preview the material. If for whatever reason you prefer your child not hear the presentation, you have the option of opting out from the program. Please come to the office and get a form to sign for opting out. We can provide you with the materials to discuss with your child at home.</p>
+
+  <label class="new-reg-label">Safe Touch Agreement: </label>
+  <input
+    required
+    type="checkbox"
+    name="Safe_Touch_Agreement"
+    [(ngModel)]="Safe_Touch_Agreement">
+  <br>
+  <br>
+    <button class="submitButton" type="Submit" [disabled]="!form.valid">Add New Family</button>
+  </form>
+</div>
+</body>

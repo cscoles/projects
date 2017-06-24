@@ -1,0 +1,61 @@
+<html lang="en" class="no-js">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
+</head>
+
+<body>
+<div *ngIf="students">
+  <h1>Registration</h1>
+  <br>
+
+  <div *ngIf="year">
+    <table class="item-list">
+      <tr class="noHover">
+        <th>Student Name</th>
+        <th>Grade Level</th>
+        <th>Preferred Session</th>
+        <th>Session</th>
+        <th>Teacher</th>
+        <th></th>
+      </tr>
+      <tr *ngFor="let student of students">
+        <td>{{student.Student_Last_Name}}, {{student.Student_First_Name}}</td>
+        <td>{{student.Student_Grade_Entering}}</td>
+        <td>{{student.Preferred_Session_Name}}</td>
+        <td>
+          <select
+            #sessionID
+            name="Session_ID"
+            [(ngModel)]="student.Session_ID"
+            (change)="loadClassrooms(sessionID.value, student.Student_Grade_Entering)">
+            <option></option>
+            <option *ngFor="let session of sessions" [ngValue]="session.Session_ID">
+              {{session.Session_Name}}
+            </option>
+          </select>
+        </td>
+        <td>
+          <select
+            #classID
+            name="Class_ID"
+            [(ngModel)]="student.Class_ID">
+            <option></option>
+            <option *ngFor="let classroom of classrooms" [ngValue]="classroom.Class_ID">
+              {{classroom.Class_Grade}} - {{classroom.Teacher_Last_Name}}, {{classroom.Teacher_First_Name}}
+            </option>
+          </select>
+        </td>
+        <td>
+          <button type="button" (click)="updateRegistration([student], sessionID.value, classID.value)">Update</button>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div *ngIf="!year">
+    <p>There is currently no planning year set, so no new registrations may be managed.</p>
+  </div>
+</div>
+</body>

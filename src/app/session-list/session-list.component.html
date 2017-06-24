@@ -1,0 +1,71 @@
+<html lang="en" class="no-js">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
+</head>
+
+<body>
+<h1>Session Management</h1>
+<br>
+<div>
+	<div><button type="button" class="btn btn-default" (click)="loadSchoolYears(); createsession.open()">Add a Session</button></div>
+  <br>
+  <table class="session">
+		<tr class="noHover">
+			<th>School Year</th>
+			<th>Session Name</th>
+		</tr>
+		<tr *ngFor="let session of sessions"
+			[class.selected]="session === selectedSession"
+			(click) = "onSelect(session); updatesession.open()">
+			<td>{{session.Year_Description}}</td>
+			<td>{{session.Session_Name}}</td>
+		</tr>
+	</table>
+	<br />
+    <modal #updatesession>
+      <modal-header [show-close]="true">
+        <h4 class="modal-title">Update Session</h4>
+      </modal-header>
+      <div *ngIf="selectedSession">
+        <form #form="ngForm"
+              (ngSubmit)="updateSession(form.value); updatesession.close()">
+          <label class="session-label">School Year: </label>
+          <select name="Year_ID" [(ngModel)]="selectedSession.Year_ID">
+            <option *ngFor="let schoolyear of schoolyears" [ngValue]="schoolyear.Year_ID">
+              {{schoolyear.Year_Description}}
+            </option>
+          </select>
+          <br/>
+          <label class="session-label">Session Name: </label>
+          <input required name="Session_Name" type="text" [(ngModel)]="selectedSession.Session_Name">
+          <br/>
+          <button type="Submit" [disabled]="!form.valid">Submit</button>
+        </form>
+      </div>
+    </modal>
+  <modal #createsession>
+    <modal-header [show-close]="true">
+      <h4 class="modal-title">Create Session</h4>
+    </modal-header>
+    <div>
+      <form #form="ngForm"
+            (ngSubmit)="addSession(form.value); createsession.close()">
+        <label class="session-label">School Year: </label>
+        <select name="Year_ID" [(ngModel)]="Year_ID">
+          <option *ngFor="let schoolyear of schoolyears" [ngValue]="schoolyear.Year_ID">
+            {{schoolyear.Year_Description}}
+          </option>
+        </select>
+        <br/>
+        <label class="session-label">Session Name: </label>
+        <input required name="Session_Name" type="text" [(ngModel)]="Session_Name">
+        <br/>
+        <button type="Submit" [disabled]="!form.valid">Submit</button>
+      </form>
+    </div>
+  </modal>
+</div>
+</body>

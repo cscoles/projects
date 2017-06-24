@@ -1,0 +1,10 @@
+	<select [(ngModel)]="selectedYear">
+		<option *ngFor="let schoolyear of schoolyears" [ngValue]="schoolyear.Year_ID">
+			{{schoolyear.Year_Description}}
+		</option>
+    <br/>
+	</select>
+	<input required name="Session_Name" type="text" [(ngModel)]="Session_Name">
+  <br/>
+	<button (click)="addSession(Session_Name, selectedYear)">Add</button>
+

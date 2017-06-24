@@ -1,0 +1,71 @@
+<form #form="ngForm" (ngSubmit)="addPayment(form.value)">
+  <label class="pay-label">Year ID: </label>
+  <select required name="Year_ID" [(ngModel)]="Year_ID">
+    <option *ngFor="let schoolyear of schoolyears" [ngValue]="schoolyear.Year_ID">
+      {{schoolyear.Year_Description}}
+    </option>
+  </select>
+  <br>
+
+  <label class="pay-label">Description: </label>
+  <input
+    required
+    type="text"
+    name="Payment_Description"
+    placeholder="e.g. Tuition"
+    [(ngModel)]="Payment_Description">
+  <br>
+
+  <label class="pay-label">Payment Type: </label>
+  <select required name="Payment_Type" [(ngModel)]="Payment_Type">
+    <option value="Charge">Charge</option>
+    <option value="Payment">Payment</option>
+  </select>
+  <br>
+
+  <label class="pay-label">Payment Amount: </label>
+  <input
+    required
+    type="text"
+    name="Payment_Amount"
+    placeholder="e.g. 100.00"
+    [(ngModel)]="Payment_Amount">
+  <br>
+  <button type="Submit" [disabled]="!form.valid">Save</button>
+</form>
+<br>
+
+<div *ngIf="payments">
+  <table class="item-list">
+    <tr class="noHover">
+      <th></th>
+      <th>Charges</th>
+      <th>Payments</th>
+      <th>Balance</th>
+    </tr>
+    <tr *ngIf="familyTotals">
+      <td>Total</td>
+      <td>{{chargeTotal | currency:'USD':true}}</td>
+      <td>{{paymentTotal | currency:'USD':true}}</td>
+      <td>{{balanceTotal | currency:'USD':true}}</td>
+    </tr>
+  </table>
+  <br>
+
+  <table class="item-list">
+    <tr class="noHover">
+      <th>School Year</th>
+      <th>Description</th>
+      <th>Type</th>
+      <th>Amount</th>
+      <th></th>
+    </tr>
+    <tr *ngFor="let payment of payments">
+      <td>{{payment.Year_Description}}</td>
+      <td>{{payment.Payment_Description}}</td>
+      <td>{{payment.Payment_Type}}</td>
+      <td>{{payment.Payment_Amount | currency:'USD':true}}</td>
+      <td><button type="button" (click)="deletePayment(payment.Payment_ID)">Delete</button></td>
+    </tr>
+  </table>
+</div>

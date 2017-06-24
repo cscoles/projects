@@ -1,0 +1,41 @@
+<html lang="en" class="no-js">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
+</head>
+
+<body>
+<h1>Families</h1>
+<br>
+<div *ngIf="schoolyears && families">
+  <label class="family-list-label">Filter School Year: </label>
+  <select #yearID name="Year_ID" [(ngModel)]="Year_ID" (change)="loadDecision(yearID.value)">
+    <option selected value="all">All</option>
+    <option *ngFor="let schoolyear of schoolyears" [ngValue]="schoolyear.Year_ID">
+      {{schoolyear.Year_Description}}
+    </option>
+  </select>
+  <table width="1800" class="item-list">
+    <tr class="noHover">
+      <th>Parent</th>
+      <th>Phone Number</th>
+      <th>Email</th>
+      <th>Total Charges</th>
+      <th>Total Payments</th>
+      <th>Balance</th>
+    </tr>
+    <tr *ngFor="let family of families"
+        [class.selected]="family === selectedFamily"
+        (click) = "onSelect(family)">
+      <td width="300">{{family.Parent_Last_Name}}, {{family.Parent_First_Name}}</td>
+      <td width="300">{{family.Parent_Phone1 | phone}}</td>
+      <td width="300">{{family.Parent_Email}}</td>
+      <td width="300">{{family.TotalCharges | currency:'USD':true}}</td>
+      <td width="300">{{family.TotalPayments | currency:'USD':true}}</td>
+      <td width="300">{{family.TotalBalance | currency:'USD':true}}</td>
+    </tr>
+  </table>
+</div>
+</body>

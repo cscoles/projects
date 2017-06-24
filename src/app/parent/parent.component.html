@@ -1,0 +1,130 @@
+<h2>Parent</h2>
+<!--
+<form #form="ngForm" (ngSubmit)="addParent(form.value)">
+-->
+<label class="new-reg-label">Last Name: </label>
+<input
+  required
+  type="text"
+  name="Parent_Last_Name"
+  placeholder="e.g. Smith"
+  [(ngModel)]="Parent_Last_Name">
+<br>
+
+<label class="new-reg-label">First Name: </label>
+<input
+  required
+  type="text"
+  name="Parent_First_Name"
+  placeholder="e.g. John"
+  [(ngModel)]="Parent_First_Name">
+<br>
+
+<label class="new-reg-label">Relationship to Student: </label>
+<select
+  required
+  class="parent-input"
+  name="Student_Relationship"
+  [(ngModel)]="Student_Relationship">
+  <option>Father</option>
+  <option>Mother</option>
+  <option>Guardian</option>
+  <option>Other</option>
+</select>
+<br>
+
+<label class="new-reg-label">Address 1: </label>
+<input
+  required
+  type="text"
+  name="Parent_Address_1"
+  placeholder="e.g. 123 Main St"
+  [(ngModel)]="Parent_Address_1">
+<br>
+
+<label class="new-reg-label">Address 2: </label>
+<input
+  type="text"
+  name="Parent_Address_2"
+  placeholder="e.g. Apt. C"
+  [(ngModel)]="Parent_Address_2">
+<br>
+
+<label class="new-reg-label">City: </label>
+<input
+  required
+  type="text"
+  name="Parent_City"
+  placeholder="e.g. St. Louis"
+  [(ngModel)]="Parent_City">
+<br>
+
+<label class="new-reg-label">State: </label>
+<input
+  type="text"
+  name="Parent_State"
+  placeholder="e.g. MO"
+  [(ngModel)]="Parent_State">
+<br>
+
+<label class="new-reg-label">Zip Code: </label>
+<input
+  required
+  type="text"
+  name="Parent_Zip"
+  placeholder="e.g. 63101"
+  [(ngModel)]="Parent_Zip">
+<br>
+
+<label class="new-reg-label">Primary Phone Number: </label>
+<input
+  required
+  type="text"
+  name="Parent_Phone1"
+  placeholder="e.g. 3145551212"
+  [(ngModel)]="Parent_Phone1">
+<br>
+
+<label class="new-reg-label">Primary Phone Type: </label>
+<select
+  required
+  class="parent-input"
+  name="Parent_Phone1_Type"
+  [(ngModel)]="Parent_Phone1_Type">
+  <option [value]="1">Mobile</option>
+  <option [value]="2">Home</option>
+  <option [value]="3">Work</option>
+</select>
+<br>
+
+<label class="new-reg-label">Secondary Phone Number: </label>
+<input
+  type="text"
+  name="Parent_Phone2"
+  placeholder="e.g. 3145551212"
+  [(ngModel)]="Parent_Phone2">
+<br>
+
+<label class="new-reg-label">Secondary Phone Type: </label>
+<select
+  class="parent-input"
+  name="Parent_Phone2_Type"
+  [(ngModel)]="Parent_Phone2_Type">
+  <option [value]="1">Mobile</option>
+  <option [value]="2">Home</option>
+  <option [value]="3">Work</option>
+</select>
+<br>
+
+<label class="new-reg-label">Email Address: </label>
+<input
+  required
+  type="email"
+  name="Parent_Email"
+  placeholder="e.g. user@email.com"
+  [(ngModel)]="Parent_Email">
+<br>
+<!--
+  <button type="Submit" [disabled]="!form.valid">Add Parent</button>
+</form>
+-->
